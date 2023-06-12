@@ -59,10 +59,10 @@ body {
   border-radius: min(0.8vw, 1.6vh);
   border: 5px solid black;
 }
-.container .calculator .buttons .button-number {
+.container .calculator .buttons .purple-background {
   background-color: #c7d2ff;
 }
-.container .calculator .buttons .button-operation {
+.container .calculator .buttons .green-background {
   background-color: rgb(123, 247, 86);
 }
 .container .calculator .buttons .button-clear {
@@ -71,8 +71,10 @@ body {
 }
 .container .calculator .buttons .button-clear:hover {
   background-color: rgb(239, 57, 57);
+  cursor: pointer;
 }
-.container .calculator .buttons .hover-colour:hover {
+.container .calculator .buttons .change-on-hover:hover {
   background-color: #fee48f;
   border-color: #b18907;
+  cursor: pointer;
 }/*# sourceMappingURL=style.css.map */
