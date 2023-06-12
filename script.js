@@ -14,10 +14,12 @@ let workingNumbersArray = []; // To compile working numbers
 
 buttonsArea.addEventListener("click", function (e) {
   // If target is a number
-  if (e.target.classList.contains("button-number")) {
+  if (e.target.classList.contains("number")) {
     if (numberString.length < 9) numberString += e.target.textContent;
     console.log(numberString);
     console.log(Number(numberString));
     screen.textContent = numberString;
   }
+
+  // If target is the decimal button
 });
