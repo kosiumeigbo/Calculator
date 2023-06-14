@@ -21,6 +21,10 @@ $calculator-radius-height: /* 25px */ 2vh;
 $calculator-radius-width: /* 25px */ 1vw;
 $button-radius-height: /* 10px */ 1.6vh;
 $button-radius-width: /* 10px */ 0.8vw;
+$screen-button-padding-height: /* 10px */ 1.6vh;
+$screen-button-padding-width: /* 10px */ 0.8vw;
+$container-padding-top-bottom-height: /* 20px */ 3.2vh;
+$container-padding-top-bottom-width: /* 20px */ 1.6vw;
 $border: 5px solid black;
 
 * {
@@ -36,7 +40,11 @@ body {
 .container {
   width: 100vw;
   height: 100vh;
-  padding: 20px 30%;
+  padding: /* 20px */ min(
+      $container-padding-top-bottom-width,
+      $container-padding-top-bottom-height
+    )
+    30%;
 
   .calculator {
     width: 100%;
@@ -61,7 +69,8 @@ body {
         font-weight: bolder;
         text-align: right;
         border-radius: min($button-radius-width, $button-radius-height);
-        padding: 0px 10px;
+        padding: 0
+          min($screen-button-padding-width, $screen-button-padding-height);
         border: $border;
       }
     }

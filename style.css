@@ -15,7 +15,7 @@ body {
 .container {
   width: 100vw;
   height: 100vh;
-  padding: 20px 30%;
+  padding: min(1.6vw, 3.2vh) 30%;
 }
 .container .calculator {
   width: 100%;
@@ -39,7 +39,7 @@ body {
   font-weight: bolder;
   text-align: right;
   border-radius: min(0.8vw, 1.6vh);
-  padding: 0px 10px;
+  padding: 0 min(0.8vw, 1.6vh);
   border: 5px solid black;
 }
 .container .calculator .buttons {
