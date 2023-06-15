@@ -197,6 +197,8 @@ const calculator = function (e) {
       // Check if multiplying by Infinity or NaN
       if (savedWorkingNumber === NaN || savedWorkingNumber === Infinity) {
         renderScreen("Error");
+      } else {
+        renderScreen(savedWorkingNumber);
       }
     }
   }
