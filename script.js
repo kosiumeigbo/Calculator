@@ -17,6 +17,7 @@ let divisionCounter = 0; // To be updated when division button is pressed
 let multiplicationCounter = 0; // To be updated when multiplication button is pressed
 let savedWorkingNumber; // Number to be updated as one of the 4 main operations is pressed
 let previousEnteredNumber; // Last number to be entered
+let previousButtonPressed; // Last button to be pressed, either operation or number
 
 // Function to update working number string by adding characters to it
 const updateWorkingNumberString = function (rootString, adder) {
@@ -46,6 +47,14 @@ const calculator = function (e) {
   if (pressedButton.classList.contains("number")) {
     // Change the CE button to C
     buttonClear.textContent = "C";
+
+    // If previous button was inverse
+    if (previousButtonPressed === "inverse") {
+      workingNumberString = "0";
+    }
+
+    // Previous pressed button is now number
+    previousButtonPressed = "number";
 
     // If pressed number is a 0 and the working number is 0
     if (
@@ -86,6 +95,14 @@ const calculator = function (e) {
 
   // If pressed button is the decimal point
   if (pressedButton.classList.contains("decimal-point")) {
+    // If previous button was inverse
+    if (previousButtonPressed === "inverse") {
+      workingNumberString === "0";
+    }
+
+    // Previous pressed button is now number
+    previousButtonPressed = "number";
+
     if (!decimalPointActivated) {
       decimalPointActivated = true;
       if (
@@ -103,94 +120,103 @@ const calculator = function (e) {
 
   // If pressed button is addition button
   if (pressedButton.classList.contains("addition")) {
-    // If addition hasn't been pressed yet in this round of calculations
-    if (additionCounter === 0 && !operationActivated) {
+    // If no operation button has been pressed yet in this round of calculations
+    if (!operationActivated) {
       savedWorkingNumber = Number(workingNumberString);
       previousEnteredNumber = Number(workingNumberString);
       console.log(`Previous entered number is: ${previousEnteredNumber}`);
       workingNumberString = "0";
-      additionCounter++;
       operationActivated = true;
     }
-    // If addition button has been pressed already in this round of calculations
+    // If an operation button has been pressed already in this round of calculations
     else {
       savedWorkingNumber += Number(workingNumberString);
       previousEnteredNumber = Number(workingNumberString);
       console.log(`Previous entered number is: ${previousEnteredNumber}`);
       workingNumberString = "0";
-      additionCounter++;
       renderScreen(savedWorkingNumber);
     }
+    // Increasing addition counter
+    additionCounter++;
+
+    // Updating the last button that was pressed;
+    previousButtonPressed = "operation";
   }
 
   // If pressed button is subtraction button
   if (pressedButton.classList.contains("subtraction")) {
-    // If subtraction hasn't been pressed yet in this round of calculations
-    if (subtractionCounter === 0 && !operationActivated) {
+    // If no operation button has been pressed yet in this round of calculations
+    if (!operationActivated) {
       savedWorkingNumber = Number(workingNumberString);
       previousEnteredNumber = Number(workingNumberString);
       console.log(`Previous entered number is: ${previousEnteredNumber}`);
       workingNumberString = "0";
-      subtractionCounter++;
       operationActivated = true;
     }
-    // If subtraction button has been pressed already in this round of calculations
+    // If an operation button has been pressed already in this round of calculations
     else {
       savedWorkingNumber -= Number(workingNumberString);
       previousEnteredNumber = Number(workingNumberString);
       console.log(`Previous entered number is: ${previousEnteredNumber}`);
       workingNumberString = "0";
-      subtractionCounter++;
       renderScreen(savedWorkingNumber);
     }
+    // Increasing subtraction counter
+    subtractionCounter++;
+
+    // Updating the last button that was pressed;
+    previousButtonPressed = "operation";
   }
 
   // If pressed button is division button
   if (pressedButton.classList.contains("division")) {
-    // If division hasn't been pressed yet in this round of calculations
-    if (divisionCounter === 0 && !operationActivated) {
+    // If no operation button has been pressed yet in this round of calculations
+    if (!operationActivated) {
       savedWorkingNumber = Number(workingNumberString);
       previousEnteredNumber = Number(workingNumberString);
       console.log(`Previous entered number is: ${previousEnteredNumber}`);
       console.log(`Saved working number is: ${savedWorkingNumber}`);
       workingNumberString = "0";
-      divisionCounter++;
       operationActivated = true;
     }
-    // If division button has been pressed already in this round of calculations
+    // If an operation button has been pressed already in this round of calculations
     else {
       savedWorkingNumber = savedWorkingNumber / Number(workingNumberString);
       previousEnteredNumber = Number(workingNumberString);
       workingNumberString = "0";
-      divisionCounter++;
       console.log(`Previous entered number is: ${previousEnteredNumber}`);
       console.log(`Saved working number is: ${savedWorkingNumber}`);
 
       // Check if dividing by zero
       if (savedWorkingNumber === NaN || savedWorkingNumber === Infinity) {
         renderScreen("Error");
+      } else {
+        renderScreen(savedWorkingNumber);
       }
     }
+    // Increasing division counter
+    divisionCounter++;
+
+    // Updating the last button that was pressed;
+    previousButtonPressed = "operation";
   }
 
   // If pressed button is multiplication button
   if (pressedButton.classList.contains("multiplication")) {
-    // If division hasn't been pressed yet in this round of calculations
-    if (multiplicationCounter === 0 && !operationActivated) {
+    // If no operation button has been pressed yet in this round of calculations
+    if (!operationActivated) {
       savedWorkingNumber = Number(workingNumberString);
       previousEnteredNumber = Number(workingNumberString);
       console.log(`Previous entered number is: ${previousEnteredNumber}`);
       console.log(`Saved working number is: ${savedWorkingNumber}`);
       workingNumberString = "0";
-      multiplicationCounter++;
       operationActivated = true;
     }
-    // If multiplication button has been pressed already in this round of calculations
+    // If an operation button has been pressed already in this round of calculations
     else {
       savedWorkingNumber = savedWorkingNumber * Number(workingNumberString);
       previousEnteredNumber = Number(workingNumberString);
       workingNumberString = "0";
-      multiplicationCounter++;
       console.log(`Previous entered number is: ${previousEnteredNumber}`);
       console.log(`Saved working number is: ${savedWorkingNumber}`);
 
@@ -201,11 +227,17 @@ const calculator = function (e) {
         renderScreen(savedWorkingNumber);
       }
     }
+    // Increasing multiplication counter
+    multiplicationCounter++;
+
+    // Updating the last button that was pressed;
+    previousButtonPressed = "operation";
   }
 
   // If pressed button is '+/-' button
   if (pressedButton.classList.contains("pos-neg")) {
-    updateWorkingNumberString("-", workingNumberString);
+    // updateWorkingNumberString("-", workingNumberString);
+    workingNumberString = String(-1 * Number(workingNumberString));
     renderScreen(workingNumberString);
   }
 };
