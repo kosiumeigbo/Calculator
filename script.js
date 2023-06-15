@@ -200,6 +200,12 @@ const calculator = function (e) {
       }
     }
   }
+
+  // If pressed button is '+/-' button
+  if (pressedButton.classList.contains("pos-neg")) {
+    updateWorkingNumberString("-", workingNumberString);
+    renderScreen(workingNumberString);
+  }
 };
 
 buttonsArea.addEventListener("click", calculator);
