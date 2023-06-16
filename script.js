@@ -203,7 +203,9 @@ const calculator = function (e) {
       previousButtonPressed = "operation";
       operationInMemory = "addition";
     } else {
-      return;
+      // Updating the last button that was pressed and the operation in memory
+      previousButtonPressed = "operation";
+      operationInMemory = "addition";
     }
     // Increasing addition counter
     additionCounter++;
@@ -242,7 +244,9 @@ const calculator = function (e) {
       previousButtonPressed = "operation";
       operationInMemory = "subtraction";
     } else {
-      return;
+      // Updating the last button that was pressed and the operation in memory
+      previousButtonPressed = "operation";
+      operationInMemory = "addition";
     }
     // Increasing subtraction counter
     subtractionCounter++;
@@ -282,7 +286,9 @@ const calculator = function (e) {
       previousButtonPressed = "operation";
       operationInMemory = "division";
     } else {
-      return;
+      // Updating the last button that was pressed and the operation in memory
+      previousButtonPressed = "operation";
+      operationInMemory = "addition";
     }
     // Increasing division counter
     divisionCounter++;
@@ -322,7 +328,9 @@ const calculator = function (e) {
       previousButtonPressed = "operation";
       operationInMemory = "multiplication";
     } else {
-      return;
+      // Updating the last button that was pressed and the operation in memory
+      previousButtonPressed = "operation";
+      operationInMemory = "addition";
     }
     // Increasing multiplication counter
     multiplicationCounter++;
@@ -333,6 +341,13 @@ const calculator = function (e) {
     // updateWorkingNumberString("-", workingNumberString);
     workingNumberString = String(-1 * Number(workingNumberString));
     renderScreen(workingNumberString);
+  }
+
+  if (pressedButton.classList.contains("inverse")) {
+    if (previousButtonPressed === "number") {
+    }
+    if (previousButtonPressed === "operation") {
+    }
   }
 };
 
