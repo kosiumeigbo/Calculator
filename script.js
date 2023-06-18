@@ -261,6 +261,7 @@ const calculator = function (e) {
         workingNumberStringDigitCounter < 9
       ) {
         updateWorkingNumberString(workingNumberString, ".");
+        updateWorkingNumberStringDigitCounter();
         previousButtonPressed = "decimal-point";
         decimalPointActivated = true;
         renderScreen(workingNumberString);
@@ -385,8 +386,43 @@ const calculator = function (e) {
 
   // If pressed button is subtraction button
   if (pressedButton.classList.contains("subtraction")) {
+    // If no button had been pressed previously
+    if (previousButtonPressed === undefined) {
+      savedWorkingNumber = 0;
+      previousEnteredNumber = 0;
+      workingNumberString = "";
+      workingNumberStringDigitCounter = 0;
+      previousButtonPressed = "operation";
+      decimalPointActivated = false;
+      operationInMemory = "subtraction";
+      renderScreen(savedWorkingNumber);
+    }
+    // If previous button pressed was a number
+    else if (
+      previousButtonPressed === "number" ||
+      previousButtonPressed === "decimal-point"
+    ) {
+      if (!operationInMemory) {
+        savedWorkingNumber = Number(workingNumberString);
+        previousEnteredNumber = Number(workingNumberString);
+        decimalPointActivated = false;
+        workingNumberString = "";
+        workingNumberStringDigitCounter = 0;
+        operationInMemory = "subtraction";
+        previousButtonPressed = "operation";
+        renderScreen(savedWorkingNumber);
+      } else {
+        performOperationInMemory(operationInMemory);
+        previousButtonPressed = "operation";
+        operationInMemory = "subtraction";
+      }
+    }
+    // If previous button pressed was another operation button
+    else if (previousButtonPressed === "operation") {
+      operationInMemory = "subtraction";
+    }
     /* -------------------- Old Subtraction Button Code Start -------------------- */
-
+    /* 
     // If no operation button has been pressed yet in this round of calculations
     if (!operationActivated) {
       savedWorkingNumber = Number(workingNumberString);
@@ -424,14 +460,49 @@ const calculator = function (e) {
     }
     // Increasing subtraction counter
     subtractionCounter++;
-
+ */
     /* -------------------- Old Subtraction Button Code End -------------------- */
   }
 
   // If pressed button is division button
   if (pressedButton.classList.contains("division")) {
+    // If no button had been pressed previously
+    if (previousButtonPressed === undefined) {
+      savedWorkingNumber = 0;
+      previousEnteredNumber = 0;
+      workingNumberString = "";
+      workingNumberStringDigitCounter = 0;
+      previousButtonPressed = "operation";
+      decimalPointActivated = false;
+      operationInMemory = "division";
+      renderScreen(savedWorkingNumber);
+    }
+    // If previous button pressed was a number
+    else if (
+      previousButtonPressed === "number" ||
+      previousButtonPressed === "decimal-point"
+    ) {
+      if (!operationInMemory) {
+        savedWorkingNumber = Number(workingNumberString);
+        previousEnteredNumber = Number(workingNumberString);
+        decimalPointActivated = false;
+        workingNumberString = "";
+        workingNumberStringDigitCounter = 0;
+        operationInMemory = "division";
+        previousButtonPressed = "operation";
+        renderScreen(savedWorkingNumber);
+      } else {
+        performOperationInMemory(operationInMemory);
+        previousButtonPressed = "operation";
+        operationInMemory = "division";
+      }
+    }
+    // If previous button pressed was another operation button
+    else if (previousButtonPressed === "operation") {
+      operationInMemory = "division";
+    }
     /* -------------------- Old Division Button Code Start -------------------- */
-
+    /* 
     // If no operation button has been pressed yet in this round of calculations
     if (!operationActivated) {
       savedWorkingNumber = Number(workingNumberString);
@@ -470,14 +541,49 @@ const calculator = function (e) {
     }
     // Increasing division counter
     divisionCounter++;
-
+ */
     /* -------------------- Old Division Button Code End -------------------- */
   }
 
   // If pressed button is multiplication button
   if (pressedButton.classList.contains("multiplication")) {
+    // If no button had been pressed previously
+    if (previousButtonPressed === undefined) {
+      savedWorkingNumber = 0;
+      previousEnteredNumber = 0;
+      workingNumberString = "";
+      workingNumberStringDigitCounter = 0;
+      previousButtonPressed = "operation";
+      decimalPointActivated = false;
+      operationInMemory = "multiplication";
+      renderScreen(savedWorkingNumber);
+    }
+    // If previous button pressed was a number
+    else if (
+      previousButtonPressed === "number" ||
+      previousButtonPressed === "decimal-point"
+    ) {
+      if (!operationInMemory) {
+        savedWorkingNumber = Number(workingNumberString);
+        previousEnteredNumber = Number(workingNumberString);
+        decimalPointActivated = false;
+        workingNumberString = "";
+        workingNumberStringDigitCounter = 0;
+        operationInMemory = "multiplication";
+        previousButtonPressed = "operation";
+        renderScreen(savedWorkingNumber);
+      } else {
+        performOperationInMemory(operationInMemory);
+        previousButtonPressed = "operation";
+        operationInMemory = "multiplication";
+      }
+    }
+    // If previous button pressed was another operation button
+    else if (previousButtonPressed === "operation") {
+      operationInMemory = "multiplication";
+    }
     /* -------------------- Old Multiplication Button Code Start -------------------- */
-
+    /* 
     // If no operation button has been pressed yet in this round of calculations
     if (!operationActivated) {
       savedWorkingNumber = Number(workingNumberString);
@@ -516,7 +622,7 @@ const calculator = function (e) {
     }
     // Increasing multiplication counter
     multiplicationCounter++;
-
+ */
     /* -------------------- Old Multiplication Button Code End -------------------- */
   }
 };
