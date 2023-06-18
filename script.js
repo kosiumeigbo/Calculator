@@ -9,9 +9,9 @@ const buttons = [
   undefined,
   "number✅",
   "decimal-point✅",
-  "operation (addition✅, subtraction, division, multiplication)",
-  "inverse",
+  "operation (addition✅, subtraction✅, division✅, multiplication✅)",
   "pos-neg",
+  "inverse",
   "square-root",
   "percentage",
   "equals-to",
@@ -22,6 +22,7 @@ const buttons = [
   "memory-add-negative",
 ];
 
+let pressedButton;
 let workingNumberString = ""; // To be updated when the user is done entering the number
 let workingNumberStringDigitCounter = 0; // To make sure that the entered number has no greater than 9 digits in total
 let decimalPointActivated = false; // To be updated when decimal point has been input
@@ -106,7 +107,7 @@ const performOperationInMemory = function (opInMemory) {
 };
 
 const calculator = function (e) {
-  const pressedButton = e.target; // Registering the pressed button
+  pressedButton = e.target; // Registering the pressed button
 
   // If current pressed button is a number
   if (pressedButton.classList.contains("number")) {
@@ -173,6 +174,28 @@ const calculator = function (e) {
         renderScreen(workingNumberString);
 
         previousButtonPressed = "number";
+      } else {
+        return;
+      }
+    }
+    // If previous button pressed was the pos-neg button
+    else if (previousButtonPressed === "pos-neg") {
+      if (
+        Number(workingNumberString) === 0 &&
+        pressedButton.dataset.number !== "0"
+      ) {
+        updateWorkingNumberString("-", pressedButton.dataset.number);
+        renderScreen(workingNumberString);
+        previousButtonPressed = "number";
+        workingNumberStringDigitCounter = 1;
+      } else if (workingNumberStringDigitCounter < 9) {
+        updateWorkingNumberString(
+          workingNumberString,
+          pressedButton.dataset.number
+        );
+        workingNumberStringDigitCounter++;
+        previousButtonPressed = "number";
+        renderScreen(workingNumberString);
       } else {
         return;
       }
@@ -261,7 +284,14 @@ const calculator = function (e) {
         workingNumberStringDigitCounter < 9
       ) {
         updateWorkingNumberString(workingNumberString, ".");
-        updateWorkingNumberStringDigitCounter();
+        if (Number(workingNumberString) === 0) {
+          updateWorkingNumberStringDigitCounter();
+        }
+        previousButtonPressed = "decimal-point";
+        decimalPointActivated = true;
+        renderScreen(workingNumberString);
+      } else if (previousButtonPressed === "pos-neg") {
+        updateWorkingNumberString(workingNumberString, ".");
         previousButtonPressed = "decimal-point";
         decimalPointActivated = true;
         renderScreen(workingNumberString);
@@ -320,7 +350,8 @@ const calculator = function (e) {
     // If previous button pressed was a number
     else if (
       previousButtonPressed === "number" ||
-      previousButtonPressed === "decimal-point"
+      previousButtonPressed === "decimal-point" ||
+      previousButtonPressed === "pos-neg"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -400,7 +431,8 @@ const calculator = function (e) {
     // If previous button pressed was a number
     else if (
       previousButtonPressed === "number" ||
-      previousButtonPressed === "decimal-point"
+      previousButtonPressed === "decimal-point" ||
+      previousButtonPressed === "pos-neg"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -480,7 +512,8 @@ const calculator = function (e) {
     // If previous button pressed was a number
     else if (
       previousButtonPressed === "number" ||
-      previousButtonPressed === "decimal-point"
+      previousButtonPressed === "decimal-point" ||
+      previousButtonPressed === "pos-neg"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -561,7 +594,8 @@ const calculator = function (e) {
     // If previous button pressed was a number
     else if (
       previousButtonPressed === "number" ||
-      previousButtonPressed === "decimal-point"
+      previousButtonPressed === "decimal-point" ||
+      previousButtonPressed === "pos-neg"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -624,6 +658,40 @@ const calculator = function (e) {
     multiplicationCounter++;
  */
     /* -------------------- Old Multiplication Button Code End -------------------- */
+  }
+
+  // If pressed button is pos-neg button
+  if (pressedButton.classList.contains("pos-neg")) {
+    if (previousButtonPressed === undefined) {
+      updateWorkingNumberString("-", "0");
+      previousButtonPressed = "pos-neg";
+      renderScreen(workingNumberString);
+    } else if (pressedButton === "decimal-point") {
+      updateWorkingNumberString(String(-1 * Number(workingNumberString)), ".");
+      previousButtonPressed = "pos-neg";
+      renderScreen(workingNumberString);
+    } else if (pressedButton === "operation") {
+      updateWorkingNumberString("-", "0");
+      previousButtonPressed = "pos-neg";
+      renderScreen(workingNumberString);
+    } else if (pressedButton === "number") {
+      workingNumberString = String(-1 * Number(workingNumberString));
+      previousButtonPressed = "pos-neg";
+      renderScreen(workingNumberString);
+    } else if (pressedButton === "pos-neg") {
+      if (workingNumberString[workingNumberString.length - 1] === ".") {
+        updateWorkingNumberString(
+          String(-1 * Number(workingNumberString)),
+          "."
+        );
+        renderScreen(workingNumberString);
+        previousButtonPressed = "pos-neg";
+      } else {
+        updateWorkingNumberString(String(-1 * Number(workingNumberString)), "");
+        renderScreen(workingNumberString);
+        previousButtonPressed = "pos-neg";
+      }
+    }
   }
 };
 
