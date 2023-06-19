@@ -16,10 +16,6 @@ const buttons = [
   "percentage",
   "equals-to",
   "clear",
-  "memory-clear",
-  "memory-recall",
-  "memory-add-positive",
-  "memory-add-negative",
 ];
 
 let pressedButton;
@@ -114,7 +110,8 @@ const calculator = function (e) {
     // If no previous button has been pressed or the previous button pressed was an operation button
     if (
       previousButtonPressed === undefined ||
-      previousButtonPressed === "operation"
+      previousButtonPressed === "operation" ||
+      previousButtonPressed === "inverse"
     ) {
       updateWorkingNumberString("", pressedButton.dataset.number);
       renderScreen(workingNumberString);
@@ -200,71 +197,6 @@ const calculator = function (e) {
         return;
       }
     }
-
-    /* -------------------- Old Number Button Code Start -------------------- */
-    /* 
-    // Change the CE button to C
-    buttonClear.textContent = "C";
-
-    // If previous button was inverse
-    if (previousButtonPressed === "inverse") {
-      workingNumberString = pressedButton.dataset.number;
-      workingNumberStringDigitCounter++;
-      previousButtonPressed = "number";
-    } else if (
-      previousButtonPressed === "number" ||
-      previousButtonPressed === "operation" ||
-      previousButtonPressed === "decimal-point"
-    ) {
-      // If pressed number is a 0 and the working number is 0
-      if (
-        pressedButton.dataset.number === "0" &&
-        workingNumberString.length === 1 &&
-        workingNumberString.includes("0")
-      ) {
-        // Previous pressed button is now number
-        previousButtonPressed = "number";
-        // If an operation is currently active;
-        if (operationActivated) {
-          renderScreen(workingNumberString);
-        }
-      }
-      // If pressed number is not a 0 but the working number is 0
-      else if (
-        workingNumberString.length === 1 &&
-        workingNumberString.includes("0") &&
-        pressedButton.dataset.number !== "0"
-      ) {
-        numberPressed("", pressedButton.dataset.number);
-        renderScreen(workingNumberString);
-
-        // Previous pressed button is now number
-        previousButtonPressed = "number";
-      }
-      // If working number is a single digit but not 0
-      else if (
-        workingNumberString.length === 1 &&
-        !workingNumberString.includes("0")
-      ) {
-        numberPressed(workingNumberString, pressedButton.dataset.number);
-        renderScreen(workingNumberString);
-
-        // Previous pressed button is now number
-        previousButtonPressed = "number";
-      }
-      // The maximum number of digits a number should have is 9 digits
-      else if (workingNumberStringDigitCounter < 9) {
-        numberPressed(workingNumberString, pressedButton.dataset.number);
-        renderScreen(workingNumberString);
-
-        // Previous pressed button is now number
-        previousButtonPressed = "number";
-      } else {
-        return;
-      }
-    }
- */
-    /* -------------------- Old Number Button Code End -------------------- */
   }
 
   // If pressed button is the decimal point
@@ -272,7 +204,8 @@ const calculator = function (e) {
     if (!decimalPointActivated) {
       if (
         previousButtonPressed === undefined ||
-        previousButtonPressed === "operation"
+        previousButtonPressed === "operation" ||
+        previousButtonPressed === "inverse"
       ) {
         updateWorkingNumberString("0", ".");
         workingNumberStringDigitCounter = 1;
@@ -299,37 +232,6 @@ const calculator = function (e) {
     } else {
       return;
     }
-
-    /* -------------------- Old Decimal Point Button Code Start -------------------- */
-    /* 
-    // If previous button was inverse
-    if (
-      previousButtonPressed === "inverse" ||
-      previousButtonPressed === "operation"
-    ) {
-      workingNumberString === "0.";
-      workingNumberStringDigitCounter++;
-      previousButtonPressed = "decimal-point";
-      decimalPointActivated = true;
-    } else if (
-      previousButtonPressed === "number" ||
-      previousButtonPressed === ""
-    )
-      if (!decimalPointActivated) {
-        decimalPointActivated = true;
-        if (
-          workingNumberString.length === 1 &&
-          workingNumberString.includes("0")
-        ) {
-          numberPressed(workingNumberString, ".");
-          renderScreen(workingNumberString);
-        } else {
-          updateWorkingNumberString(workingNumberString, ".");
-          renderScreen(workingNumberString);
-        }
-      }
- */
-    /* -------------------- Old Decimal Point Button Code End -------------------- */
   }
 
   /////////////////////////////// Operations /////////////////////////////////
@@ -351,7 +253,8 @@ const calculator = function (e) {
     else if (
       previousButtonPressed === "number" ||
       previousButtonPressed === "decimal-point" ||
-      previousButtonPressed === "pos-neg"
+      previousButtonPressed === "pos-neg" ||
+      previousButtonPressed === "inverse"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -372,47 +275,6 @@ const calculator = function (e) {
     else if (previousButtonPressed === "operation") {
       operationInMemory = "addition";
     }
-    /* -------------------- Old Addition Button Code Start -------------------- */
-    /* 
-    // If no operation button has been pressed yet in this round of calculations
-    if (!operationActivated) {
-      savedWorkingNumber = Number(workingNumberString);
-      previousEnteredNumber = Number(workingNumberString);
-      console.log(`Previous entered number is: ${previousEnteredNumber}`);
-      workingNumberString = "0";
-      operationActivated = true;
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "addition";
-    }
-    // If an operation button has been pressed already in this round of calculations
-    else if (previousButtonPressed !== "operation") {
-      performOperationInMemory(operationInMemory);
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "addition";
-    } else if (
-      previousButtonPressed === "operation" &&
-      (savedWorkingNumber === NaN || savedWorkingNumber === Infinity)
-    ) {
-      savedWorkingNumber = previousEnteredNumber;
-      workingNumberString = "0";
-      renderScreen(savedWorkingNumber);
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "addition";
-    } else {
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "addition";
-    }
-    // Increasing addition counter
-    additionCounter++;
- */
-    /* -------------------- Old Addition Button Code Start -------------------- */
   }
 
   // If pressed button is subtraction button
@@ -432,7 +294,8 @@ const calculator = function (e) {
     else if (
       previousButtonPressed === "number" ||
       previousButtonPressed === "decimal-point" ||
-      previousButtonPressed === "pos-neg"
+      previousButtonPressed === "pos-neg" ||
+      previousButtonPressed === "inverse"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -453,47 +316,6 @@ const calculator = function (e) {
     else if (previousButtonPressed === "operation") {
       operationInMemory = "subtraction";
     }
-    /* -------------------- Old Subtraction Button Code Start -------------------- */
-    /* 
-    // If no operation button has been pressed yet in this round of calculations
-    if (!operationActivated) {
-      savedWorkingNumber = Number(workingNumberString);
-      previousEnteredNumber = Number(workingNumberString);
-      console.log(`Previous entered number is: ${previousEnteredNumber}`);
-      workingNumberString = "0";
-      operationActivated = true;
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "subtraction";
-    }
-    // If an operation button has been pressed already in this round of calculations
-    else if (previousButtonPressed !== "operation") {
-      performOperationInMemory(operationInMemory);
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "subtraction";
-    } else if (
-      previousButtonPressed === "operation" &&
-      (savedWorkingNumber === NaN || savedWorkingNumber === Infinity)
-    ) {
-      savedWorkingNumber = previousEnteredNumber;
-      workingNumberString = "0";
-      renderScreen(savedWorkingNumber);
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "subtraction";
-    } else {
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "addition";
-    }
-    // Increasing subtraction counter
-    subtractionCounter++;
- */
-    /* -------------------- Old Subtraction Button Code End -------------------- */
   }
 
   // If pressed button is division button
@@ -513,7 +335,8 @@ const calculator = function (e) {
     else if (
       previousButtonPressed === "number" ||
       previousButtonPressed === "decimal-point" ||
-      previousButtonPressed === "pos-neg"
+      previousButtonPressed === "pos-neg" ||
+      previousButtonPressed === "inverse"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -534,48 +357,6 @@ const calculator = function (e) {
     else if (previousButtonPressed === "operation") {
       operationInMemory = "division";
     }
-    /* -------------------- Old Division Button Code Start -------------------- */
-    /* 
-    // If no operation button has been pressed yet in this round of calculations
-    if (!operationActivated) {
-      savedWorkingNumber = Number(workingNumberString);
-      previousEnteredNumber = Number(workingNumberString);
-      console.log(`Previous entered number is: ${previousEnteredNumber}`);
-      console.log(`Saved working number is: ${savedWorkingNumber}`);
-      workingNumberString = "0";
-      operationActivated = true;
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "division";
-    }
-    // If an operation button has been pressed already in this round of calculations
-    else if (previousButtonPressed !== "operation") {
-      performOperationInMemory(operationInMemory);
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "division";
-    } else if (
-      previousButtonPressed === "operation" &&
-      (savedWorkingNumber === NaN || savedWorkingNumber === Infinity)
-    ) {
-      savedWorkingNumber = previousEnteredNumber;
-      workingNumberString = "0";
-      renderScreen(savedWorkingNumber);
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "division";
-    } else {
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "addition";
-    }
-    // Increasing division counter
-    divisionCounter++;
- */
-    /* -------------------- Old Division Button Code End -------------------- */
   }
 
   // If pressed button is multiplication button
@@ -595,7 +376,8 @@ const calculator = function (e) {
     else if (
       previousButtonPressed === "number" ||
       previousButtonPressed === "decimal-point" ||
-      previousButtonPressed === "pos-neg"
+      previousButtonPressed === "pos-neg" ||
+      previousButtonPressed === "inverse"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -616,48 +398,6 @@ const calculator = function (e) {
     else if (previousButtonPressed === "operation") {
       operationInMemory = "multiplication";
     }
-    /* -------------------- Old Multiplication Button Code Start -------------------- */
-    /* 
-    // If no operation button has been pressed yet in this round of calculations
-    if (!operationActivated) {
-      savedWorkingNumber = Number(workingNumberString);
-      previousEnteredNumber = Number(workingNumberString);
-      console.log(`Previous entered number is: ${previousEnteredNumber}`);
-      console.log(`Saved working number is: ${savedWorkingNumber}`);
-      workingNumberString = "0";
-      operationActivated = true;
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "multiplication";
-    }
-    // If an operation button has been pressed already in this round of calculations
-    else if (previousButtonPressed !== "operation") {
-      performOperationInMemory(operationInMemory);
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "multiplication";
-    } else if (
-      previousButtonPressed === "operation" &&
-      (savedWorkingNumber === NaN || savedWorkingNumber === Infinity)
-    ) {
-      savedWorkingNumber = previousEnteredNumber;
-      workingNumberString = "0";
-      renderScreen(savedWorkingNumber);
-
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "multiplication";
-    } else {
-      // Updating the last button that was pressed and the operation in memory
-      previousButtonPressed = "operation";
-      operationInMemory = "addition";
-    }
-    // Increasing multiplication counter
-    multiplicationCounter++;
- */
-    /* -------------------- Old Multiplication Button Code End -------------------- */
   }
 
   // If pressed button is pos-neg button
@@ -666,19 +406,22 @@ const calculator = function (e) {
       updateWorkingNumberString("-", "0");
       previousButtonPressed = "pos-neg";
       renderScreen(workingNumberString);
-    } else if (pressedButton === "decimal-point") {
+    } else if (previousButtonPressed === "decimal-point") {
       updateWorkingNumberString(String(-1 * Number(workingNumberString)), ".");
       previousButtonPressed = "pos-neg";
       renderScreen(workingNumberString);
-    } else if (pressedButton === "operation") {
+    } else if (previousButtonPressed === "operation") {
       updateWorkingNumberString("-", "0");
       previousButtonPressed = "pos-neg";
       renderScreen(workingNumberString);
-    } else if (pressedButton === "number") {
+    } else if (
+      previousButtonPressed === "number" ||
+      previousButtonPressed === "inverse"
+    ) {
       workingNumberString = String(-1 * Number(workingNumberString));
       previousButtonPressed = "pos-neg";
       renderScreen(workingNumberString);
-    } else if (pressedButton === "pos-neg") {
+    } else if (previousButtonPressed === "pos-neg") {
       if (workingNumberString[workingNumberString.length - 1] === ".") {
         updateWorkingNumberString(
           String(-1 * Number(workingNumberString)),
@@ -692,6 +435,69 @@ const calculator = function (e) {
         previousButtonPressed = "pos-neg";
       }
     }
+  }
+
+  // If pressed button is inverse button
+  if (pressedButton.classList.contains("inverse")) {
+    if (previousButtonPressed === undefined) {
+      savedWorkingNumber = 0;
+      previousEnteredNumber = 0;
+      renderScreen("Error");
+      previousButtonPressed = "inverse";
+      workingNumberString = "0";
+    } else if (previousButtonPressed === "decimal-point") {
+      if (Number(workingNumberString) === 0) {
+        previousEnteredNumber = 0;
+        renderScreen("Error");
+        previousButtonPressed = "inverse";
+        workingNumberString = "0";
+      } else {
+        workingNumberString = String(1 / Number(workingNumberString));
+        previousEnteredNumber = 0;
+        renderScreen(workingNumberString);
+        previousButtonPressed = "inverse";
+        workingNumberString = "";
+      }
+    } else if (previousButtonPressed === "operation") {
+      if (savedWorkingNumber === 0) {
+        renderScreen("Error");
+        previousButtonPressed = "inverse";
+        workingNumberString = "0";
+        previousEnteredNumber = 0;
+      } else {
+        workingNumberString = String(1 / savedWorkingNumber);
+        renderScreen(workingNumberString);
+        previousButtonPressed = "inverse";
+      }
+    } else if (
+      previousButtonPressed === "number" ||
+      previousButtonPressed === "pos-neg"
+    ) {
+      if (Number(workingNumberString) === 0) {
+        renderScreen("Error");
+        previousButtonPressed = "inverse";
+        workingNumberString = "0";
+        previousEnteredNumber = 0;
+      } else {
+        workingNumberString = String(1 / Number(workingNumberString));
+        renderScreen(workingNumberString);
+        previousButtonPressed = "inverse";
+      }
+    } else if (previousButtonPressed === "inverse") {
+      if (Number(workingNumberString) === 0) {
+        renderScreen("Error");
+        previousButtonPressed = "inverse";
+        workingNumberString = "0";
+      } else {
+        workingNumberString = String(1 / Number(workingNumberString));
+        renderScreen(workingNumberString);
+        previousButtonPressed = "inverse";
+      }
+    }
+  }
+
+  // If pressed button is square root button
+  if (pressedButton.classList.contains("square-root")) {
   }
 };
 
