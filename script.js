@@ -5,11 +5,14 @@ const buttonsArea = document.querySelector(".buttons");
 const buttonClear = document.querySelector(".button-clear");
 const selectedBackgroundColor = "#fee48f";
 const selectedBorderColor = "#b18907";
-const buttons = [
-  undefined,
+// undefined
+// (addition✅, subtraction✅, division✅, multiplication✅)
+
+/* 
+[
   "number✅",
   "decimal-point✅",
-  "operation (addition✅, subtraction✅, division✅, multiplication✅)",
+  "operation✅",
   "pos-neg✅",
   "inverse✅",
   "square-root✅",
@@ -17,6 +20,10 @@ const buttons = [
   "equals-to",
   "clear",
 ];
+*/
+
+// prettier-ignore
+const [number, decimalPoint, operation, posNeg, inverse, squareRoot, percentage, equalsTo, clear,] = ["number", "decimal-point", "operation", "pos-neg", "inverse", "square-root", "percentage", "equals-to", "clear",];
 
 let pressedButton;
 let workingNumberString = ""; // To be updated when the user is done entering the number
@@ -107,7 +114,8 @@ const calculator = function (e) {
       previousButtonPressed === undefined ||
       previousButtonPressed === "operation" ||
       previousButtonPressed === "inverse" ||
-      previousButtonPressed === "square-root"
+      previousButtonPressed === "square-root" ||
+      previousButtonPressed === "percentage"
     ) {
       updateWorkingNumberString("", pressedButton.dataset.number);
       renderScreen(workingNumberString);
@@ -202,7 +210,8 @@ const calculator = function (e) {
         previousButtonPressed === undefined ||
         previousButtonPressed === "operation" ||
         previousButtonPressed === "inverse" ||
-        previousButtonPressed === "square-root"
+        previousButtonPressed === "square-root" ||
+        previousButtonPressed === "percentage"
       ) {
         updateWorkingNumberString("0", ".");
         workingNumberStringDigitCounter = 1;
@@ -252,7 +261,8 @@ const calculator = function (e) {
       previousButtonPressed === "decimal-point" ||
       previousButtonPressed === "pos-neg" ||
       previousButtonPressed === "inverse" ||
-      previousButtonPressed === "square-root"
+      previousButtonPressed === "square-root" ||
+      previousButtonPressed === "percentage"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -294,7 +304,8 @@ const calculator = function (e) {
       previousButtonPressed === "decimal-point" ||
       previousButtonPressed === "pos-neg" ||
       previousButtonPressed === "inverse" ||
-      previousButtonPressed === "square-root"
+      previousButtonPressed === "square-root" ||
+      previousButtonPressed === "percentage"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -336,7 +347,8 @@ const calculator = function (e) {
       previousButtonPressed === "decimal-point" ||
       previousButtonPressed === "pos-neg" ||
       previousButtonPressed === "inverse" ||
-      previousButtonPressed === "square-root"
+      previousButtonPressed === "square-root" ||
+      previousButtonPressed === "percentage"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -378,7 +390,8 @@ const calculator = function (e) {
       previousButtonPressed === "decimal-point" ||
       previousButtonPressed === "pos-neg" ||
       previousButtonPressed === "inverse" ||
-      previousButtonPressed === "square-root"
+      previousButtonPressed === "square-root" ||
+      previousButtonPressed === "percentage"
     ) {
       if (!operationInMemory) {
         savedWorkingNumber = Number(workingNumberString);
@@ -422,7 +435,8 @@ const calculator = function (e) {
       renderScreen(workingNumberString);
     } else if (
       previousButtonPressed === "number" ||
-      previousButtonPressed === "inverse"
+      previousButtonPressed === "inverse" ||
+      previousButtonPressed === "percentage"
     ) {
       workingNumberString = String(-1 * Number(workingNumberString));
       previousButtonPressed = "pos-neg";
@@ -456,7 +470,7 @@ const calculator = function (e) {
         renderScreen("Error");
         previousButtonPressed = "inverse";
         workingNumberString = "0";
-        previousEnteredNumber = 0;
+        // previousEnteredNumber = 0;
       } else {
         workingNumberString = String(1 / savedWorkingNumber);
         renderScreen(workingNumberString);
@@ -467,13 +481,14 @@ const calculator = function (e) {
       previousButtonPressed === "pos-neg" ||
       previousButtonPressed === "inverse" ||
       previousButtonPressed === "decimal-point" ||
-      previousButtonPressed === "square-root"
+      previousButtonPressed === "square-root" ||
+      previousButtonPressed === "percentage"
     ) {
       if (Number(workingNumberString) === 0) {
         renderScreen("Error");
         previousButtonPressed = "inverse";
         workingNumberString = "0";
-        previousEnteredNumber = 0;
+        // previousEnteredNumber = 0;
       } else {
         workingNumberString = String(1 / Number(workingNumberString));
         renderScreen(workingNumberString);
@@ -493,7 +508,8 @@ const calculator = function (e) {
       previousButtonPressed === "number" ||
       previousButtonPressed === "pos-neg" ||
       previousButtonPressed === "inverse" ||
-      previousButtonPressed === "square-root"
+      previousButtonPressed === "square-root" ||
+      previousButtonPressed === "percentage"
     ) {
       if (Number(workingNumberString) < 0) {
         previousEnteredNumber = Number(workingNumberString);
@@ -515,6 +531,55 @@ const calculator = function (e) {
         workingNumberString = String(1 / savedWorkingNumber);
         renderScreen(workingNumberString);
         previousButtonPressed = "square-root";
+      }
+    }
+  }
+
+  // If pressed button is percentage
+  if (pressedButton.classList.contains("percentage")) {
+    if (previousButtonPressed === undefined) {
+      workingNumberString = "0";
+      renderScreen(workingNumberString);
+      previousButtonPressed = "percentage";
+    } else if (
+      previousButtonPressed === "decimal-point" ||
+      previousButtonPressed === "number" ||
+      previousButtonPressed === "pos-neg"
+    ) {
+      workingNumberString = String(Number(workingNumberString) / 100);
+      renderScreen(workingNumberString);
+      previousButtonPressed = "percentage";
+    } else if (previousButtonPressed === "operation") {
+      if (savedWorkingNumber === NaN || savedWorkingNumber === Infinity) {
+        renderScreen("Error");
+        workingNumberString = "0";
+        previousButtonPressed = "percentage";
+      } else {
+        workingNumberString = String(Number(savedWorkingNumber) / 100);
+        previousButtonPressed = "percentage";
+        renderScreen(workingNumberString);
+      }
+    } else if (
+      previousButtonPressed === "inverse" ||
+      previousButtonPressed === "square-root"
+    ) {
+      if (Number(workingNumberString) === 0) {
+        previousButtonPressed = "percentage";
+        renderScreen(workingNumberString);
+      } else {
+        workingNumberString = String(Number(savedWorkingNumber) / 100);
+        previousButtonPressed = "percentage";
+        renderScreen(workingNumberString);
+      }
+    } else if (previousButtonPressed === "percentage") {
+      if (savedWorkingNumber === NaN || savedWorkingNumber === Infinity) {
+        renderScreen("Error");
+        previousButtonPressed = "percentage";
+        workingNumberString = "0";
+      } else {
+        workingNumberString = String(Number(savedWorkingNumber) / 100);
+        renderScreen(workingNumberString);
+        previousButtonPressed = "percentage";
       }
     }
   }
