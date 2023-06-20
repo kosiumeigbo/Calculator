@@ -445,19 +445,6 @@ const calculator = function (e) {
       renderScreen("Error");
       previousButtonPressed = "inverse";
       workingNumberString = "0";
-    } else if (previousButtonPressed === "decimal-point") {
-      if (Number(workingNumberString) === 0) {
-        previousEnteredNumber = 0;
-        renderScreen("Error");
-        previousButtonPressed = "inverse";
-        workingNumberString = "0";
-      } else {
-        workingNumberString = String(1 / Number(workingNumberString));
-        previousEnteredNumber = 0;
-        renderScreen(workingNumberString);
-        previousButtonPressed = "inverse";
-        workingNumberString = "";
-      }
     } else if (previousButtonPressed === "operation") {
       if (savedWorkingNumber === 0) {
         renderScreen("Error");
@@ -471,7 +458,9 @@ const calculator = function (e) {
       }
     } else if (
       previousButtonPressed === "number" ||
-      previousButtonPressed === "pos-neg"
+      previousButtonPressed === "pos-neg" ||
+      previousButtonPressed === "inverse" ||
+      previousButtonPressed === "decimal-point"
     ) {
       if (Number(workingNumberString) === 0) {
         renderScreen("Error");
@@ -483,21 +472,44 @@ const calculator = function (e) {
         renderScreen(workingNumberString);
         previousButtonPressed = "inverse";
       }
-    } else if (previousButtonPressed === "inverse") {
-      if (Number(workingNumberString) === 0) {
-        renderScreen("Error");
-        previousButtonPressed = "inverse";
-        workingNumberString = "0";
-      } else {
-        workingNumberString = String(1 / Number(workingNumberString));
-        renderScreen(workingNumberString);
-        previousButtonPressed = "inverse";
-      }
     }
   }
 
   // If pressed button is square root button
   if (pressedButton.classList.contains("square-root")) {
+    if (previousButtonPressed === undefined) {
+      workingNumberString = "0";
+      renderScreen(workingNumberString);
+      previousButtonPressed = "square-root";
+    } else if (
+      previousButtonPressed === "decimal-point" ||
+      previousButtonPressed === "number" ||
+      previousButtonPressed === "pos-neg" ||
+      previousButtonPressed === "inverse" ||
+      previousButtonPressed === "square-root"
+    ) {
+      if (Number(workingNumberString) < 0) {
+        previousEnteredNumber = Number(workingNumberString);
+        renderScreen("Error");
+        previousButtonPressed = "square-root";
+        workingNumberString = "0";
+      } else {
+        workingNumberString = String(Math.sqrt(Number(workingNumberString)));
+        renderScreen(workingNumberString);
+        previousButtonPressed = "square-root";
+      }
+    } else if (previousButtonPressed === "operation") {
+      if (savedWorkingNumber < 0) {
+        renderScreen("Error");
+        previousButtonPressed = "square-root";
+        workingNumberString = "0";
+        previousEnteredNumber = savedWorkingNumber;
+      } else {
+        workingNumberString = String(1 / savedWorkingNumber);
+        renderScreen(workingNumberString);
+        previousButtonPressed = "square-root";
+      }
+    }
   }
 };
 
