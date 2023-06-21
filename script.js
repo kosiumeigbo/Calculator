@@ -16,8 +16,8 @@ const selectedBorderColor = "#b18907";
   "pos-neg✅",
   "inverse✅",
   "square-root✅",
-  "percentage",
-  "equals-to",
+  "percentage✅",
+  "equals-to✅",
   "clear",
 ];
 */
@@ -33,7 +33,6 @@ let savedWorkingNumber; // Number to be updated as one of the 4 main operations 
 let previousEnteredNumber; // Last number to be entered
 let previousButtonPressed; // Last button to be pressed, either operation or number
 let operationInMemory; // Last operation button pressed, either addition, subtraction, division or multiplication
-let savedNumberEqualsTo;
 
 // Function to update working number string by adding characters to it
 const updateWorkingNumberString = function (rootString, adder) {
@@ -60,7 +59,6 @@ const performOperationInMemory = function (opInMemory) {
   if (opInMemory === "addition") {
     savedWorkingNumber += Number(workingNumberString);
     previousEnteredNumber = Number(workingNumberString);
-    workingNumberString = "";
     workingNumberStringDigitCounter = 0;
     decimalPointActivated = false;
     console.log(`Previous entered number is: ${previousEnteredNumber}`);
@@ -70,7 +68,6 @@ const performOperationInMemory = function (opInMemory) {
   if (opInMemory === "subtraction") {
     savedWorkingNumber -= Number(workingNumberString);
     previousEnteredNumber = Number(workingNumberString);
-    workingNumberString = "";
     workingNumberStringDigitCounter = 0;
     decimalPointActivated = false;
     console.log(`Previous entered number is: ${previousEnteredNumber}`);
@@ -80,7 +77,6 @@ const performOperationInMemory = function (opInMemory) {
   if (opInMemory === "division") {
     savedWorkingNumber = savedWorkingNumber / Number(workingNumberString);
     previousEnteredNumber = Number(workingNumberString);
-    workingNumberString = "";
     workingNumberStringDigitCounter = 0;
     decimalPointActivated = false;
     console.log(`Previous entered number is: ${previousEnteredNumber}`);
@@ -90,7 +86,6 @@ const performOperationInMemory = function (opInMemory) {
   if (opInMemory === "multiplication") {
     savedWorkingNumber = savedWorkingNumber * Number(workingNumberString);
     previousEnteredNumber = Number(workingNumberString);
-    workingNumberString = "";
     workingNumberStringDigitCounter = 0;
     decimalPointActivated = false;
     console.log(`Previous entered number is: ${previousEnteredNumber}`);
@@ -105,21 +100,46 @@ const performOperationInMemory = function (opInMemory) {
   }
 };
 
-const performOperationInMemoryEqualsTo = function (opInMemory) {
+const performOperationInMemoryPosNegEqualsTo = function (opInMemory) {
   if (opInMemory === "addition") {
-    savedWorkingNumber += savedNumberEqualsTo;
+    savedWorkingNumber = Number(workingNumberString) + previousEnteredNumber;
   }
 
   if (opInMemory === "subtraction") {
-    savedWorkingNumber -= savedNumberEqualsTo;
+    savedWorkingNumber = Number(workingNumberString) - previousEnteredNumber;
   }
 
   if (opInMemory === "division") {
-    savedWorkingNumber = savedWorkingNumber / savedNumberEqualsTo;
+    savedWorkingNumber = Number(workingNumberString) / previousEnteredNumber;
   }
 
   if (opInMemory === "multiplication") {
-    savedWorkingNumber = savedWorkingNumber * savedNumberEqualsTo;
+    savedWorkingNumber = Number(workingNumberString) * previousEnteredNumber;
+  }
+
+  // Check if multiplying by Infinity or NaN
+  if (savedWorkingNumber === NaN || savedWorkingNumber === Infinity) {
+    renderScreen("Error");
+  } else {
+    renderScreen(savedWorkingNumber);
+  }
+};
+
+const performOperationInMemoryEqualsTo = function (opInMemory) {
+  if (opInMemory === "addition") {
+    savedWorkingNumber = savedWorkingNumber + previousEnteredNumber;
+  }
+
+  if (opInMemory === "subtraction") {
+    savedWorkingNumber = savedWorkingNumber - previousEnteredNumber;
+  }
+
+  if (opInMemory === "division") {
+    savedWorkingNumber = savedWorkingNumber / previousEnteredNumber;
+  }
+
+  if (opInMemory === "multiplication") {
+    savedWorkingNumber = savedWorkingNumber * previousEnteredNumber;
   }
 
   // Check if multiplying by Infinity or NaN
@@ -141,7 +161,8 @@ const calculator = function (e) {
       previousButtonPressed === "operation" ||
       previousButtonPressed === "inverse" ||
       previousButtonPressed === "square-root" ||
-      previousButtonPressed === "percentage"
+      previousButtonPressed === "percentage" ||
+      previousButtonPressed === "equals-to"
     ) {
       updateWorkingNumberString("", pressedButton.dataset.number);
       renderScreen(workingNumberString);
@@ -237,7 +258,8 @@ const calculator = function (e) {
         previousButtonPressed === "operation" ||
         previousButtonPressed === "inverse" ||
         previousButtonPressed === "square-root" ||
-        previousButtonPressed === "percentage"
+        previousButtonPressed === "percentage" ||
+        previousButtonPressed === "equals-to"
       ) {
         updateWorkingNumberString("0", ".");
         workingNumberStringDigitCounter = 1;
@@ -306,7 +328,10 @@ const calculator = function (e) {
       }
     }
     // If previous button pressed was another operation button
-    else if (previousButtonPressed === "operation") {
+    else if (
+      previousButtonPressed === "operation" ||
+      previousButtonPressed === "equals-to"
+    ) {
       operationInMemory = "addition";
     }
   }
@@ -349,7 +374,10 @@ const calculator = function (e) {
       }
     }
     // If previous button pressed was another operation button
-    else if (previousButtonPressed === "operation") {
+    else if (
+      previousButtonPressed === "operation" ||
+      previousButtonPressed === "equals-to"
+    ) {
       operationInMemory = "subtraction";
     }
   }
@@ -392,7 +420,10 @@ const calculator = function (e) {
       }
     }
     // If previous button pressed was another operation button
-    else if (previousButtonPressed === "operation") {
+    else if (
+      previousButtonPressed === "operation" ||
+      previousButtonPressed === "equals-to"
+    ) {
       operationInMemory = "division";
     }
   }
@@ -435,7 +466,10 @@ const calculator = function (e) {
       }
     }
     // If previous button pressed was another operation button
-    else if (previousButtonPressed === "operation") {
+    else if (
+      previousButtonPressed === "operation" ||
+      previousButtonPressed === "equals-to"
+    ) {
       operationInMemory = "multiplication";
     }
   }
@@ -480,6 +514,10 @@ const calculator = function (e) {
         renderScreen(workingNumberString);
         previousButtonPressed = "pos-neg";
       }
+    } else if (previousButtonPressed === "equals-to") {
+      updateWorkingNumberString(String(-1 * Number(savedWorkingNumber)), "");
+      renderScreen(workingNumberString);
+      previousButtonPressed = "pos-neg";
     }
   }
 
@@ -520,6 +558,9 @@ const calculator = function (e) {
         renderScreen(workingNumberString);
         previousButtonPressed = "inverse";
       }
+    } else if (previousButtonPressed === "equals-to") {
+      workingNumberString = String(1 / Number(savedWorkingNumber));
+      previousButtonPressed = "inverse";
     }
   }
 
@@ -558,6 +599,10 @@ const calculator = function (e) {
         renderScreen(workingNumberString);
         previousButtonPressed = "square-root";
       }
+    } else if (previousButtonPressed === "equals-to") {
+      workingNumberString = String(Math.sqrt(Number(savedWorkingNumber)));
+      renderScreen(workingNumberString);
+      previousButtonPressed = "square-root";
     }
   }
 
@@ -607,6 +652,10 @@ const calculator = function (e) {
         renderScreen(workingNumberString);
         previousButtonPressed = "percentage";
       }
+    } else if (previousButtonPressed === "equals-to") {
+      workingNumberString = String(Number(savedWorkingNumber) / 100);
+      previousButtonPressed = "percentage";
+      renderScreen(workingNumberString);
     }
   }
 
@@ -617,7 +666,6 @@ const calculator = function (e) {
     } else if (
       previousButtonPressed === "decimal-point" ||
       previousButtonPressed === "number" ||
-      previousButtonPressed === "pos-neg" ||
       previousButtonPressed === "inverse" ||
       previousButtonPressed === "square-root" ||
       previousButtonPressed === "percentage"
@@ -632,14 +680,22 @@ const calculator = function (e) {
         previousButtonPressed = "equals-to";
       }
     } else if (previousButtonPressed === "operation") {
-      savedNumberEqualsTo = savedWorkingNumber;
-      performOperationInMemoryEqualsTo(operationInMemory);
+      performOperationInMemory(operationInMemory);
       previousButtonPressed = "equals-to";
+    } else if (previousButtonPressed === "pos-neg") {
+      if (operationInMemory) {
+        performOperationInMemoryPosNegEqualsTo(operationInMemory);
+        previousButtonPressed = "equals-to";
+      } else {
+        renderScreen(savedWorkingNumber);
+        previousButtonPressed = "equals-to";
+      }
     } else if (previousButtonPressed === "equals-to") {
-      if (savedNumberEqualsTo) {
+      if (operationInMemory) {
         performOperationInMemoryEqualsTo(operationInMemory);
         previousButtonPressed = "equals-to";
       } else {
+        renderScreen(savedWorkingNumber);
         previousButtonPressed = "equals-to";
       }
     }
