@@ -680,7 +680,8 @@ const calculator = function (e) {
         previousButtonPressed = "equals-to";
       }
     } else if (previousButtonPressed === "operation") {
-      performOperationInMemory(operationInMemory);
+      previousEnteredNumber = savedWorkingNumber;
+      performOperationInMemoryEqualsTo(operationInMemory);
       previousButtonPressed = "equals-to";
     } else if (previousButtonPressed === "pos-neg") {
       if (operationInMemory) {
