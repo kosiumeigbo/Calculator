@@ -5,6 +5,17 @@ const buttonsArea = document.querySelector(".buttons");
 const buttonClear = document.querySelector(".button-clear");
 const selectedBackgroundColor = "#fee48f";
 const selectedBorderColor = "#b18907";
+const additionButton = document.querySelector(".addition");
+const subtractionButton = document.querySelector(".subtraction");
+const divisionButton = document.querySelector(".division");
+const multiplicationButton = document.querySelector(".multiplication");
+
+const operationButtons = [
+  additionButton,
+  subtractionButton,
+  divisionButton,
+  multiplicationButton,
+];
 // undefined
 // (addition✅, subtraction✅, division✅, multiplication✅)
 
@@ -155,6 +166,11 @@ const calculator = function (e) {
 
   // If current pressed button is a number
   if (pressedButton.classList.contains("number")) {
+    operationButtons.forEach(opr => {
+      opr.style.backgroundColor = null;
+      opr.style.borderColor = null;
+    });
+
     // If no previous button has been pressed or the previous button pressed was an operation button
     if (
       previousButtonPressed === undefined ||
@@ -252,6 +268,11 @@ const calculator = function (e) {
 
   // If pressed button is the decimal point
   if (pressedButton.classList.contains("decimal-point")) {
+    operationButtons.forEach(opr => {
+      opr.style.backgroundColor = null;
+      opr.style.borderColor = null;
+    });
+
     if (!decimalPointActivated) {
       if (
         previousButtonPressed === undefined ||
@@ -292,6 +313,13 @@ const calculator = function (e) {
 
   // If pressed button is addition button
   if (pressedButton.classList.contains("addition")) {
+    operationButtons.forEach(opr => {
+      opr.style.backgroundColor = null;
+      opr.style.borderColor = null;
+    });
+    additionButton.style.backgroundColor = selectedBackgroundColor;
+    additionButton.style.borderColor = selectedBorderColor;
+
     // If no button had been pressed previously
     if (previousButtonPressed === undefined) {
       savedWorkingNumber = 0;
@@ -338,6 +366,13 @@ const calculator = function (e) {
 
   // If pressed button is subtraction button
   if (pressedButton.classList.contains("subtraction")) {
+    operationButtons.forEach(opr => {
+      opr.style.backgroundColor = null;
+      opr.style.borderColor = null;
+    });
+    subtractionButton.style.backgroundColor = selectedBackgroundColor;
+    subtractionButton.style.borderColor = selectedBorderColor;
+
     // If no button had been pressed previously
     if (previousButtonPressed === undefined) {
       savedWorkingNumber = 0;
@@ -384,6 +419,13 @@ const calculator = function (e) {
 
   // If pressed button is division button
   if (pressedButton.classList.contains("division")) {
+    operationButtons.forEach(opr => {
+      opr.style.backgroundColor = null;
+      opr.style.borderColor = null;
+    });
+    divisionButton.style.backgroundColor = selectedBackgroundColor;
+    divisionButton.style.borderColor = selectedBorderColor;
+
     // If no button had been pressed previously
     if (previousButtonPressed === undefined) {
       savedWorkingNumber = 0;
@@ -430,6 +472,13 @@ const calculator = function (e) {
 
   // If pressed button is multiplication button
   if (pressedButton.classList.contains("multiplication")) {
+    operationButtons.forEach(opr => {
+      opr.style.backgroundColor = null;
+      opr.style.borderColor = null;
+    });
+    multiplicationButton.style.backgroundColor = selectedBackgroundColor;
+    multiplicationButton.style.borderColor = selectedBorderColor;
+
     // If no button had been pressed previously
     if (previousButtonPressed === undefined) {
       savedWorkingNumber = 0;
@@ -478,6 +527,11 @@ const calculator = function (e) {
 
   // If pressed button is pos-neg button
   if (pressedButton.classList.contains("pos-neg")) {
+    operationButtons.forEach(opr => {
+      opr.style.backgroundColor = null;
+      opr.style.borderColor = null;
+    });
+
     if (
       previousButtonPressed === undefined ||
       previousButtonPressed === "square-root"
@@ -661,6 +715,11 @@ const calculator = function (e) {
 
   // If pressed button is equals to
   if (pressedButton.classList.contains("equals-to")) {
+    operationButtons.forEach(opr => {
+      opr.style.backgroundColor = null;
+      opr.style.borderColor = null;
+    });
+
     if (previousButtonPressed === undefined) {
       previousButtonPressed = "equals-to";
     } else if (
