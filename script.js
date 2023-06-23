@@ -763,3 +763,45 @@ const calculator = function (e) {
 };
 
 buttonsArea.addEventListener("click", calculator);
+
+const renderScreenNew = function (value) {
+  if (value === "Error") {
+    console.log(value);
+  } else if (
+    Number(value) >= Number.MIN_SAFE_INTEGER + 1 ||
+    Number(value) <= Number.MAX_SAFE_INTEGER - 1
+  ) {
+    let valueNumber = Number(value);
+    let valueString = String(value);
+
+    if (
+      (valueString.includes("-") &&
+        valueString.includes(".") &&
+        valueString.length > 11) ||
+      (valueString.includes("-") &&
+        !valueString.includes(".") &&
+        valueString.length > 10) ||
+      (!valueString.includes("-") &&
+        valueString.includes(".") &&
+        valueString.length > 10) ||
+      (!valueString.includes("-") &&
+        !valueString.includes(".") &&
+        valueString.length > 9)
+    ) {
+      if (Math.abs(valueNumber) > 999999999) {
+      } else if (Math.abs(valueNumber) < 0.000001) {
+        console.log();
+      } else {
+        console.log(valueString);
+      }
+    } else {
+      console.log(valueString);
+    }
+  } else {
+    console.log("Out of Range");
+  }
+};
+
+renderScreenNew(123456);
+
+// toFixed and Math.decimal comparison
