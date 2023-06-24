@@ -60,6 +60,25 @@ const renderScreen = function (number) {
   screen.textContent = number;
 };
 
+const renderScreenNew = function (value) {
+  //////////////////////////////
+  if (value === "Error") {
+    console.log(value);
+  } else if (
+    Number(value) >= Number.MIN_SAFE_INTEGER + 1 &&
+    Number(value) <= Number.MAX_SAFE_INTEGER - 1
+  ) {
+    let valueNumber = Number(value);
+    let valueString = String(value);
+    if (valueString.includes("e")) {
+      console.log(valueString);
+    } else {
+    }
+  } else {
+    console.log("Out of Bounds");
+  }
+};
+
 // Function combining updateWorkingNumberString and updateWorkingNumberStringDigitCounter
 const numberPressed = function (rootString, adder) {
   updateWorkingNumberString(rootString, adder);
@@ -764,44 +783,24 @@ const calculator = function (e) {
 
 buttonsArea.addEventListener("click", calculator);
 
-const renderScreenNew = function (value) {
-  if (value === "Error") {
-    console.log(value);
-  } else if (
-    Number(value) >= Number.MIN_SAFE_INTEGER + 1 ||
-    Number(value) <= Number.MAX_SAFE_INTEGER - 1
-  ) {
-    let valueNumber = Number(value);
-    let valueString = String(value);
-
-    if (
-      (valueString.includes("-") &&
-        valueString.includes(".") &&
-        valueString.length > 11) ||
-      (valueString.includes("-") &&
-        !valueString.includes(".") &&
-        valueString.length > 10) ||
-      (!valueString.includes("-") &&
-        valueString.includes(".") &&
-        valueString.length > 10) ||
-      (!valueString.includes("-") &&
-        !valueString.includes(".") &&
-        valueString.length > 9)
-    ) {
-      if (Math.abs(valueNumber) > 999999999) {
-      } else if (Math.abs(valueNumber) < 0.000001) {
-        console.log();
-      } else {
-        console.log(valueString);
-      }
-    } else {
-      console.log(valueString);
+const renderScreenTest = function (value) {
+  let valueNumberAbs = Math.abs(value);
+  let i = 0;
+  if (valueNumberAbs > 999999999) {
+    while (valueNumberAbs >= 10) {
+      valueNumberAbs = valueNumberAbs / 10;
+      i++;
     }
-  } else {
-    console.log("Out of Range");
+  } else if (valueNumberAbs < 0.000001) {
+    while (valueNumberAbs < 1) {
+      valueNumberAbs = valueNumberAbs * 10;
+      i++;
+    }
   }
+  console.log(valueNumberAbs, i);
 };
 
-renderScreenNew(123456);
+renderScreenNew(-0.0000009857748388475647383984848393948);
+// console.log(1234567894 - 999999999);
 
 // toFixed and Math.decimal comparison
