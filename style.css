@@ -35,7 +35,7 @@ body {
   height: 100%;
   font-family: calculatorFont;
   /* font-size: calc($button-font-size); */
-  font-size: min(4.5vw, 9vh);
+  font-size: min(4.5vw, 5vh);
   font-weight: bolder;
   text-align: right;
   border-radius: min(0.8vw, 0.8vh);

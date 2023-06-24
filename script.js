@@ -55,27 +55,64 @@ const updateWorkingNumberStringDigitCounter = function () {
   workingNumberStringDigitCounter++;
 };
 
-// Function to render a number on screen
-const renderScreen = function (number) {
-  screen.textContent = number;
-};
-
-const renderScreenNew = function (value) {
-  //////////////////////////////
+const renderScreen = function (value) {
   if (value === "Error") {
-    console.log(value);
-  } else if (
-    Number(value) >= Number.MIN_SAFE_INTEGER + 1 &&
-    Number(value) <= Number.MAX_SAFE_INTEGER - 1
-  ) {
+    screen.textContent = value;
+  } else {
     let valueNumber = Number(value);
     let valueString = String(value);
+    console.log(valueNumber);
+    console.log(valueString);
+    const numberSign = Math.sign(valueNumber);
+
     if (valueString.includes("e")) {
-      console.log(valueString);
+      let [num, ePart] = valueString.split("e");
+      const numAbs = Math.abs(Number(num));
+
+      if (String(numAbs).length <= 10) {
+        screen.textContent = `${
+          numberSign === -1 || numberSign === -0 ? "-" : ""
+        }${numAbs}e${ePart}`;
+      } else {
+        screen.textContent = `${
+          numberSign === -1 || numberSign === -0 ? "-" : ""
+        }${numAbs.toFixed(8)}e${ePart}`;
+      }
     } else {
+      if (
+        (valueString.includes("-") &&
+          valueString.includes(".") &&
+          valueString.length <= 11) ||
+        (valueString.includes("-") &&
+          !valueString.includes(".") &&
+          valueString.length <= 10) ||
+        (!valueString.includes("-") &&
+          valueString.includes(".") &&
+          valueString.length <= 10) ||
+        (!valueString.includes("-") &&
+          !valueString.includes(".") &&
+          valueString.length <= 9)
+      ) {
+        screen.textContent = valueString;
+      } else {
+        let numAbs = Math.abs(valueNumber);
+        let i = 0;
+        while (numAbs >= 10) {
+          numAbs = numAbs / 10;
+          i++;
+        }
+
+        if (String(numAbs).length <= 10) {
+          screen.textContent = `${
+            numberSign === -1 || numberSign === -0 ? "-" : ""
+          }${numAbs}e+${i}`;
+        } else {
+          screen.textContent = `${
+            numberSign === -1 || numberSign === -0 ? "-" : ""
+          }${numAbs.toFixed(8)}e+${i}`;
+        }
+      }
     }
-  } else {
-    console.log("Out of Bounds");
   }
 };
 
@@ -782,25 +819,3 @@ const calculator = function (e) {
 };
 
 buttonsArea.addEventListener("click", calculator);
-
-const renderScreenTest = function (value) {
-  let valueNumberAbs = Math.abs(value);
-  let i = 0;
-  if (valueNumberAbs > 999999999) {
-    while (valueNumberAbs >= 10) {
-      valueNumberAbs = valueNumberAbs / 10;
-      i++;
-    }
-  } else if (valueNumberAbs < 0.000001) {
-    while (valueNumberAbs < 1) {
-      valueNumberAbs = valueNumberAbs * 10;
-      i++;
-    }
-  }
-  console.log(valueNumberAbs, i);
-};
-
-renderScreenNew(-0.0000009857748388475647383984848393948);
-// console.log(1234567894 - 999999999);
-
-// toFixed and Math.decimal comparison
