@@ -222,6 +222,8 @@ const calculator = function (e) {
 
   // If current pressed button is a number
   if (pressedButton.classList.contains("number")) {
+    buttonClear.textContent = "C";
+
     operationButtons.forEach(opr => {
       opr.style.backgroundColor = null;
       opr.style.borderColor = null;
@@ -236,8 +238,6 @@ const calculator = function (e) {
       previousButtonPressed === "percentage" ||
       previousButtonPressed === "equals-to"
     ) {
-      if (previousButtonPressed === undefined) buttonClear.textContent = "C";
-
       updateWorkingNumberString("", pressedButton.dataset.number);
       renderScreen(workingNumberString);
 
@@ -326,6 +326,8 @@ const calculator = function (e) {
 
   // If pressed button is the decimal point
   if (pressedButton.classList.contains("decimal-point")) {
+    buttonClear.textContent = "C";
+
     operationButtons.forEach(opr => {
       opr.style.backgroundColor = null;
       opr.style.borderColor = null;
@@ -340,8 +342,6 @@ const calculator = function (e) {
         previousButtonPressed === "percentage" ||
         previousButtonPressed === "equals-to"
       ) {
-        if (previousButtonPressed === undefined) buttonClear.textContent = "C";
-
         updateWorkingNumberString("0", ".");
         workingNumberStringDigitCounter = 1;
         previousButtonPressed = "decimal-point";
@@ -808,6 +808,7 @@ const calculator = function (e) {
         performOperationInMemoryPosNegEqualsTo(operationInMemory);
         previousButtonPressed = "equals-to";
       } else {
+        savedWorkingNumber = Number(workingNumberString);
         renderScreen(savedWorkingNumber);
         previousButtonPressed = "equals-to";
       }
@@ -826,18 +827,29 @@ const calculator = function (e) {
   if (pressedButton.classList.contains("clear")) {
     if (previousButtonPressed === undefined) {
       return;
-    } else if (previousButtonPressed === "operation") {
-      workingNumberString = "";
-      renderScreen("0");
-      previousButtonPressed = "clear";
     } else if (
+      previousButtonPressed === "operation" ||
       previousButtonPressed === "decimal-point" ||
-      previousButtonPressed === "number"
+      previousButtonPressed === "number" ||
+      previousButtonPressed === "pos-neg" ||
+      previousButtonPressed === "inverse" ||
+      previousButtonPressed === "square-root" ||
+      previousButtonPressed === "percentage" ||
+      previousButtonPressed === "equals-to"
     ) {
+      buttonClear.textContent = "CE";
+
       workingNumberString = "";
       renderScreen("0");
-      previousButtonPressed = "clear";
-      if (operationInMemory) {
+      if (
+        operationInMemory &&
+        (previousButtonPressed === "operation" ||
+          previousButtonPressed === "decimal-point" ||
+          previousButtonPressed === "number" ||
+          previousButtonPressed === "inverse" ||
+          previousButtonPressed === "square-root" ||
+          previousButtonPressed === "percentage")
+      ) {
         operationButtons.forEach(opr => {
           opr.style.backgroundColor = null;
           opr.style.borderColor = null;
@@ -848,6 +860,15 @@ const calculator = function (e) {
         document.querySelector(`.${operationInMemory}`).style.borderColor =
           selectedBorderColor;
       }
+
+      if (previousButtonPressed === "pos-neg") {
+        document.querySelector(".pos-neg").style.backgroundColor =
+          selectedBackgroundColor;
+        document.querySelector(".pos-neg").style.borderColor =
+          selectedBorderColor;
+      }
+      previousButtonPressed = "clear";
+    } else if (previousButtonPressed === "clear") {
     }
   }
 };
