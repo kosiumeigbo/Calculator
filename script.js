@@ -236,6 +236,8 @@ const calculator = function (e) {
       previousButtonPressed === "percentage" ||
       previousButtonPressed === "equals-to"
     ) {
+      if (previousButtonPressed === undefined) buttonClear.textContent = "C";
+
       updateWorkingNumberString("", pressedButton.dataset.number);
       renderScreen(workingNumberString);
 
@@ -338,6 +340,8 @@ const calculator = function (e) {
         previousButtonPressed === "percentage" ||
         previousButtonPressed === "equals-to"
       ) {
+        if (previousButtonPressed === undefined) buttonClear.textContent = "C";
+
         updateWorkingNumberString("0", ".");
         workingNumberStringDigitCounter = 1;
         previousButtonPressed = "decimal-point";
@@ -777,6 +781,7 @@ const calculator = function (e) {
     });
 
     if (previousButtonPressed === undefined) {
+      savedWorkingNumber = 0;
       previousButtonPressed = "equals-to";
     } else if (
       previousButtonPressed === "decimal-point" ||
@@ -813,6 +818,35 @@ const calculator = function (e) {
       } else {
         renderScreen(savedWorkingNumber);
         previousButtonPressed = "equals-to";
+      }
+    }
+  }
+
+  // If pressed button is clear button
+  if (pressedButton.classList.contains("clear")) {
+    if (previousButtonPressed === undefined) {
+      return;
+    } else if (previousButtonPressed === "operation") {
+      workingNumberString = "";
+      renderScreen("0");
+      previousButtonPressed = "clear";
+    } else if (
+      previousButtonPressed === "decimal-point" ||
+      previousButtonPressed === "number"
+    ) {
+      workingNumberString = "";
+      renderScreen("0");
+      previousButtonPressed = "clear";
+      if (operationInMemory) {
+        operationButtons.forEach(opr => {
+          opr.style.backgroundColor = null;
+          opr.style.borderColor = null;
+        });
+
+        document.querySelector(`.${operationInMemory}`).style.backgroundColor =
+          selectedBackgroundColor;
+        document.querySelector(`.${operationInMemory}`).style.borderColor =
+          selectedBorderColor;
       }
     }
   }
