@@ -383,7 +383,10 @@ const calculator = function (e) {
     additionButton.style.borderColor = selectedBorderColor;
 
     // If no button had been pressed previously
-    if (previousButtonPressed === undefined) {
+    if (
+      previousButtonPressed === undefined ||
+      previousButtonPressed === "clear"
+    ) {
       savedWorkingNumber = 0;
       previousEnteredNumber = 0;
       workingNumberString = "";
@@ -436,7 +439,10 @@ const calculator = function (e) {
     subtractionButton.style.borderColor = selectedBorderColor;
 
     // If no button had been pressed previously
-    if (previousButtonPressed === undefined) {
+    if (
+      previousButtonPressed === undefined ||
+      previousButtonPressed === "clear"
+    ) {
       savedWorkingNumber = 0;
       previousEnteredNumber = 0;
       workingNumberString = "";
@@ -489,7 +495,10 @@ const calculator = function (e) {
     divisionButton.style.borderColor = selectedBorderColor;
 
     // If no button had been pressed previously
-    if (previousButtonPressed === undefined) {
+    if (
+      previousButtonPressed === undefined ||
+      previousButtonPressed === "clear"
+    ) {
       savedWorkingNumber = 0;
       previousEnteredNumber = 0;
       workingNumberString = "";
@@ -542,7 +551,10 @@ const calculator = function (e) {
     multiplicationButton.style.borderColor = selectedBorderColor;
 
     // If no button had been pressed previously
-    if (previousButtonPressed === undefined) {
+    if (
+      previousButtonPressed === undefined ||
+      previousButtonPressed === "clear"
+    ) {
       savedWorkingNumber = 0;
       previousEnteredNumber = 0;
       workingNumberString = "";
@@ -596,7 +608,8 @@ const calculator = function (e) {
 
     if (
       previousButtonPressed === undefined ||
-      previousButtonPressed === "square-root"
+      previousButtonPressed === "square-root" ||
+      previousButtonPressed === "clear"
     ) {
       updateWorkingNumberString("-", "0");
       previousButtonPressed = "pos-neg";
@@ -677,13 +690,20 @@ const calculator = function (e) {
     } else if (previousButtonPressed === "equals-to") {
       workingNumberString = String(1 / Number(savedWorkingNumber));
       previousButtonPressed = "inverse";
+    } else if (previousButtonPressed === "clear") {
+      workingNumberString = "0";
+      renderScreen("Error");
+      previousButtonPressed = "inverse";
     }
     decimalPointActivated = false;
   }
 
   // If pressed button is square root button
   if (pressedButton.classList.contains("square-root")) {
-    if (previousButtonPressed === undefined) {
+    if (
+      previousButtonPressed === undefined ||
+      previousButtonPressed === "clear"
+    ) {
       workingNumberString = "0";
       renderScreen(workingNumberString);
       previousButtonPressed = "square-root";
@@ -726,7 +746,10 @@ const calculator = function (e) {
 
   // If pressed button is percentage
   if (pressedButton.classList.contains("percentage")) {
-    if (previousButtonPressed === undefined) {
+    if (
+      previousButtonPressed === undefined ||
+      previousButtonPressed === "clear"
+    ) {
       workingNumberString = "0";
       renderScreen(workingNumberString);
       previousButtonPressed = "percentage";
@@ -787,6 +810,7 @@ const calculator = function (e) {
 
     if (previousButtonPressed === undefined) {
       savedWorkingNumber = 0;
+      previousEnteredNumber = 0;
       previousButtonPressed = "equals-to";
     } else if (
       previousButtonPressed === "decimal-point" ||
@@ -825,6 +849,10 @@ const calculator = function (e) {
         renderScreen(savedWorkingNumber);
         previousButtonPressed = "equals-to";
       }
+    } else if (previousButtonPressed === "clear") {
+      previousEnteredNumber = 0;
+      renderScreen(savedWorkingNumber);
+      previousButtonPressed = "equals-to";
     }
     decimalPointActivated = false;
   }
