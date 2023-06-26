@@ -236,7 +236,8 @@ const calculator = function (e) {
       previousButtonPressed === "inverse" ||
       previousButtonPressed === "square-root" ||
       previousButtonPressed === "percentage" ||
-      previousButtonPressed === "equals-to"
+      previousButtonPressed === "equals-to" ||
+      previousButtonPressed === "clear"
     ) {
       updateWorkingNumberString("", pressedButton.dataset.number);
       renderScreen(workingNumberString);
@@ -340,7 +341,8 @@ const calculator = function (e) {
         previousButtonPressed === "inverse" ||
         previousButtonPressed === "square-root" ||
         previousButtonPressed === "percentage" ||
-        previousButtonPressed === "equals-to"
+        previousButtonPressed === "equals-to" ||
+        previousButtonPressed === "clear"
       ) {
         updateWorkingNumberString("0", ".");
         workingNumberStringDigitCounter = 1;
@@ -676,6 +678,7 @@ const calculator = function (e) {
       workingNumberString = String(1 / Number(savedWorkingNumber));
       previousButtonPressed = "inverse";
     }
+    decimalPointActivated = false;
   }
 
   // If pressed button is square root button
@@ -718,6 +721,7 @@ const calculator = function (e) {
       renderScreen(workingNumberString);
       previousButtonPressed = "square-root";
     }
+    decimalPointActivated = false;
   }
 
   // If pressed button is percentage
@@ -771,6 +775,7 @@ const calculator = function (e) {
       previousButtonPressed = "percentage";
       renderScreen(workingNumberString);
     }
+    decimalPointActivated = false;
   }
 
   // If pressed button is equals to
@@ -821,6 +826,7 @@ const calculator = function (e) {
         previousButtonPressed = "equals-to";
       }
     }
+    decimalPointActivated = false;
   }
 
   // If pressed button is clear button
@@ -867,6 +873,7 @@ const calculator = function (e) {
         document.querySelector(".pos-neg").style.borderColor =
           selectedBorderColor;
       }
+      decimalPointActivated = false;
       previousButtonPressed = "clear";
     } else if (previousButtonPressed === "clear") {
       previousButtonPressed = undefined;
