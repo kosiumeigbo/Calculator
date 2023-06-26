@@ -869,6 +869,21 @@ const calculator = function (e) {
       }
       previousButtonPressed = "clear";
     } else if (previousButtonPressed === "clear") {
+      previousButtonPressed = undefined;
+      workingNumberString = "";
+      workingNumberString = 0;
+      savedWorkingNumber = undefined;
+      previousEnteredNumber = undefined;
+      decimalPointActivated = false;
+      operationInMemory = undefined;
+
+      operationButtons.forEach(opr => {
+        opr.style.backgroundColor = null;
+        opr.style.borderColor = null;
+      });
+
+      document.querySelector(".pos-neg").style.backgroundColor = null;
+      document.querySelector(".pos-neg").style.borderColor = null;
     }
   }
 };
