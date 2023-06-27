@@ -851,13 +851,7 @@ const calculator = function (e) {
       }
     } else if (previousButtonPressed === "clear") {
       previousEnteredNumber = 0;
-      if (savedWorkingNumber !== undefined) {
-        renderScreen(savedWorkingNumber);
-      } else {
-        savedWorkingNumber = 0;
-        renderScreen(savedWorkingNumber);
-      }
-
+      renderScreen(savedWorkingNumber);
       previousButtonPressed = "equals-to";
     }
     decimalPointActivated = false;
@@ -907,6 +901,11 @@ const calculator = function (e) {
         document.querySelector(".pos-neg").style.borderColor =
           selectedBorderColor;
       }
+
+      if (savedWorkingNumber === undefined) {
+        savedWorkingNumber = 0;
+      }
+
       decimalPointActivated = false;
       previousButtonPressed = "clear";
     } else if (previousButtonPressed === "clear") {
