@@ -851,7 +851,13 @@ const calculator = function (e) {
       }
     } else if (previousButtonPressed === "clear") {
       previousEnteredNumber = 0;
-      renderScreen(savedWorkingNumber);
+      if (savedWorkingNumber !== undefined) {
+        renderScreen(savedWorkingNumber);
+      } else {
+        savedWorkingNumber = 0;
+        renderScreen(savedWorkingNumber);
+      }
+
       previousButtonPressed = "equals-to";
     }
     decimalPointActivated = false;
