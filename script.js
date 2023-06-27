@@ -16,25 +16,12 @@ const operationButtons = [
   divisionButton,
   multiplicationButton,
 ];
-// undefined
-// (addition✅, subtraction✅, division✅, multiplication✅)
-
-/* 
-[
-  "number✅",
-  "decimal-point✅",
-  "operation✅",
-  "pos-neg✅",
-  "inverse✅",
-  "square-root✅",
-  "percentage✅",
-  "equals-to✅",
-  "clear",
-];
-*/
 
 // prettier-ignore
 const [number, decimalPoint, operation, posNeg, inverse, squareRoot, percentage, equalsTo, clear,] = ["number", "decimal-point", "operation", "pos-neg", "inverse", "square-root", "percentage", "equals-to", "clear",];
+
+// prettier-ignore
+const [addition, subtraction, division, multiplication] = ["addition", "subtraction", "division", "multiplication",];
 
 let pressedButton;
 let workingNumberString = ""; // To be updated when the user is done entering the number
@@ -61,8 +48,6 @@ const renderScreen = function (value) {
   } else {
     let valueNumber = Number(value);
     let valueString = String(value);
-    console.log(valueNumber);
-    console.log(valueString);
     const numberSign = Math.sign(valueNumber);
 
     if (valueString.includes("e")) {
@@ -128,8 +113,6 @@ const performOperationInMemory = function (opInMemory) {
     previousEnteredNumber = Number(workingNumberString);
     workingNumberStringDigitCounter = 0;
     decimalPointActivated = false;
-    console.log(`Previous entered number is: ${previousEnteredNumber}`);
-    console.log(`Saved working number is: ${savedWorkingNumber}`);
   }
 
   if (opInMemory === "subtraction") {
@@ -137,8 +120,6 @@ const performOperationInMemory = function (opInMemory) {
     previousEnteredNumber = Number(workingNumberString);
     workingNumberStringDigitCounter = 0;
     decimalPointActivated = false;
-    console.log(`Previous entered number is: ${previousEnteredNumber}`);
-    console.log(`Saved working number is: ${savedWorkingNumber}`);
   }
 
   if (opInMemory === "division") {
@@ -146,8 +127,6 @@ const performOperationInMemory = function (opInMemory) {
     previousEnteredNumber = Number(workingNumberString);
     workingNumberStringDigitCounter = 0;
     decimalPointActivated = false;
-    console.log(`Previous entered number is: ${previousEnteredNumber}`);
-    console.log(`Saved working number is: ${savedWorkingNumber}`);
   }
 
   if (opInMemory === "multiplication") {
@@ -155,8 +134,6 @@ const performOperationInMemory = function (opInMemory) {
     previousEnteredNumber = Number(workingNumberString);
     workingNumberStringDigitCounter = 0;
     decimalPointActivated = false;
-    console.log(`Previous entered number is: ${previousEnteredNumber}`);
-    console.log(`Saved working number is: ${savedWorkingNumber}`);
   }
 
   // Check if multiplying by Infinity or NaN
