@@ -1,0 +1,21 @@
+{
+  "name": "calculator",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "parcel index.html --open --dist-dir server",
+    "build": "if [ -d dist ]; then rm -r dist; fi && parcel build index.html --public-url https://kosiumeigbo.github.io/Calculator/ --dist-dir dist",
+    "deploy": "gh-pages -d dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kosiumeigbo/Calculator.git"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.9.3",
+    "gh-pages": "^6.0.0",
+    "parcel": "^2.9.3"
+  }
+}
