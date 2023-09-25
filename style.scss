@@ -25,7 +25,7 @@ $screen-button-padding-height: /* 10px */ 1.6vh;
 $screen-button-padding-width: /* 10px */ 0.8vw;
 $container-padding-top-bottom-height: /* 20px */ 3.2vh;
 $container-padding-top-bottom-width: /* 20px */ 1.6vw;
-$border: 5px solid black;
+$border: 1px solid black;
 
 * {
   margin: 0;
@@ -38,83 +38,145 @@ body {
 }
 
 .container {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  padding: /* 20px */ min(
-      $container-padding-top-bottom-width,
-      $container-padding-top-bottom-height
-    )
-    30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .calculator {
-    width: 100%;
-    height: 100%;
-    background-color: rgb(133, 127, 127);
-    border-radius: min($calculator-radius-width, $calculator-radius-height);
-    padding: min($button-gap-width, $button-gap-height)
-      min($button-gap-width, $button-gap-height);
-    border: $border;
+.calculator {
+  height: 80%;
+  aspect-ratio: 5 / 6;
+  background-color: rgb(133, 127, 127);
+  border: $border;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 5fr;
+  margin-inline: auto;
 
-    .screen-container {
+  .screen-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button {
       width: 100%;
-      height: $button-height;
-      padding-bottom: min($button-gap-width, $button-gap-height);
+      height: 100%;
+      font-family: calculatorFont;
+      font-size: min($screen-font-size-width, $screen-font-size-height);
+      font-weight: bolder;
+      text-align: right;
+      padding: 0
+        min($screen-button-padding-width, $screen-button-padding-height);
+      border: $border;
+    }
+  }
 
-      button {
-        width: 100%;
-        height: 100%;
-        font-family: calculatorFont;
-        /* font-size: calc($button-font-size); */
-        font-size: min($screen-font-size-width, $screen-font-size-height);
-        font-weight: bolder;
-        text-align: right;
-        border-radius: min($button-radius-width, $button-radius-height);
-        padding: 0
-          min($screen-button-padding-width, $screen-button-padding-height);
-        border: $border;
-      }
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+
+    button {
+      font-size: min($button-font-size-width, $button-font-size-height);
+      border: $border;
     }
 
-    .buttons {
-      width: 100%;
-      height: calc($button-height * 5);
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(5, 1fr);
-      column-gap: min($button-gap-width, $button-gap-height);
-      row-gap: min($button-gap-width, $button-gap-height);
-      padding-top: min($button-gap-width, $button-gap-height);
+    .purple-background {
+      background-color: $purple-background-color;
+    }
 
-      button {
-        /* font-size: calc($button-font-size - 10px); */
-        font-size: min($button-font-size-width, $button-font-size-height);
-        border-radius: min($button-radius-width, $button-radius-height);
-        border: $border;
-      }
+    .green-background {
+      background-color: $green-background-color;
+    }
 
-      .purple-background {
-        background-color: $purple-background-color;
-      }
+    .button-clear {
+      background-color: $button-clear-background-color;
+      border-color: $button-clear-border-color;
+    }
 
-      .green-background {
-        background-color: $green-background-color;
-      }
+    .button-clear:hover {
+      background-color: $button-clear-hover-color;
+      cursor: pointer;
+    }
 
-      .button-clear {
-        background-color: $button-clear-background-color;
-        border-color: $button-clear-border-color;
-      }
-
-      .button-clear:hover {
-        background-color: $button-clear-hover-color;
-        cursor: pointer;
-      }
-
-      .change-on-hover:hover {
-        background-color: $button-color-hover-background;
-        border-color: $button-color-hover-border;
-        cursor: pointer;
-      }
+    .change-on-hover:hover {
+      background-color: $button-color-hover-background;
+      border-color: $button-color-hover-border;
+      cursor: pointer;
     }
   }
 }
+
+/*
+.calculator {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(133, 127, 127);
+  border-radius: min($calculator-radius-width, $calculator-radius-height);
+  padding: min($button-gap-width, $button-gap-height)
+    min($button-gap-width, $button-gap-height);
+  border: $border;
+
+  .screen-container {
+    width: 100%;
+    height: $button-height;
+    padding-bottom: min($button-gap-width, $button-gap-height);
+
+    button {
+      width: 100%;
+      height: 100%;
+      font-family: calculatorFont;
+      font-size: min($screen-font-size-width, $screen-font-size-height);
+      font-weight: bolder;
+      text-align: right;
+      border-radius: min($button-radius-width, $button-radius-height);
+      padding: 0
+        min($screen-button-padding-width, $screen-button-padding-height);
+      border: $border;
+    }
+  }
+
+  .buttons {
+    width: 100%;
+    height: calc($button-height * 5);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    column-gap: min($button-gap-width, $button-gap-height);
+    row-gap: min($button-gap-width, $button-gap-height);
+    padding-top: min($button-gap-width, $button-gap-height);
+
+    button {
+      font-size: min($button-font-size-width, $button-font-size-height);
+      border-radius: min($button-radius-width, $button-radius-height);
+      border: $border;
+    }
+
+    .purple-background {
+      background-color: $purple-background-color;
+    }
+
+    .green-background {
+      background-color: $green-background-color;
+    }
+
+    .button-clear {
+      background-color: $button-clear-background-color;
+      border-color: $button-clear-border-color;
+    }
+
+    .button-clear:hover {
+      background-color: $button-clear-hover-color;
+      cursor: pointer;
+    }
+
+    .change-on-hover:hover {
+      background-color: $button-color-hover-background;
+      border-color: $button-color-hover-border;
+      cursor: pointer;
+    }
+  }
+}
+*/
