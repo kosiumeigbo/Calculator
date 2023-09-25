@@ -1,5 +1,6 @@
 "use strict";
 
+const calculatorEl = document.querySelector(".calculator");
 const screen = document.querySelector(".screen");
 const buttonsArea = document.querySelector(".buttons");
 const buttonClear = document.querySelector(".button-clear");
@@ -31,6 +32,42 @@ let savedWorkingNumber; // Number to be updated as one of the 4 main operations 
 let previousEnteredNumber; // Last number to be entered
 let previousButtonPressed; // Last button to be pressed, either operation or number
 let operationInMemory; // Last operation button pressed, either addition, subtraction, division or multiplication
+
+/*
+// Event listener to check for width of calculator when DOM loads
+window.document.addEventListener("DOMContentLoaded", function (e) {
+  const calculatorWidth = calculatorEl.scrollWidth;
+  const calculatorHeight = calculatorEl.scrollHeight;
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+
+  console.log(calculatorWidth, calculatorHeight, windowHeight, windowWidth);
+
+  if (window.innerWidth <= calculatorWidth) {
+    calculatorEl.style.width = "95%";
+    calculatorEl.style.aspectRatio = "5 / 6";
+  } else {
+    calculatorEl.style.height = "80%";
+  }
+});
+
+window.addEventListener("resize", function (e) {
+  const calculatorWidth = calculatorEl.scrollWidth;
+  const calculatorHeight = calculatorEl.scrollHeight;
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+
+  console.log(calculatorWidth, calculatorHeight, windowHeight, windowWidth);
+
+  if (window.innerWidth <= calculatorWidth) {
+    calculatorEl.style.width = "95%";
+    calculatorEl.style.aspectRatio = "5 / 6";
+  } else {
+    calculatorEl.style.height = "80%";
+    calculatorEl.style.aspectRatio = "5 / 6";
+  }
+});
+*/
 
 // Function to update working number string by adding characters to it
 const updateWorkingNumberString = function (rootString, adder) {
