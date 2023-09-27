@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "parcel index.html --open --dist-dir server",
-    "build": "if [ -d dist ]; then rm -r dist; fi && parcel build index.html --public-url https://kosiumeigbo.github.io/Calculator/ --dist-dir dist",
+    "build": "parcel build index.html --public-url https://kosiumeigbo.github.io/Calculator/ --dist-dir dist",
     "deploy": "gh-pages -d dist"
   },
   "author": "",
