@@ -34,7 +34,8 @@ let previousButtonPressed; // Last button to be pressed, either operation or num
 let operationInMemory; // Last operation button pressed, either addition, subtraction, division or multiplication
 
 const resizeCalculator = function () {
-  const windowAspectRatio = window.innerWidth / window.innerHeight;
+  const windowAspectRatio =
+    window.screen.availWidth / window.screen.availHeight;
 
   if (windowAspectRatio > 5 / 6) {
     calculatorEl.style.height = "95%";
